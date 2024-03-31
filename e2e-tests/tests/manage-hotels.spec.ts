@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
+import path from "path";
 
-const UI_URL = "http://localhost:5173/";
+const UI_URL = "http://localhost:5173";
 
 test.beforeEach(async({ page })=> {
   await page.goto(UI_URL);
@@ -31,12 +32,13 @@ test("hopefully, users can add a hotel", async ({page}) => {
   await page.getByText("Spartan").click();
   await page.getByLabel("Wifi Included").check();
   await page.getByLabel("Air Conditioning").check();
-  await page.locator('[name="adultCount]').fill("3");
-  await page.locator('[name="childCount]').fill("1");
+  await page.locator('[name="adultCount"]').fill("3");
+  await page.locator('[name="childCount"]').fill("1");
   await page.setInputFiles('[name="imageFiles"]', [
     path.join(__dirname, "files", "test-image1.webp"),
     path.join(__dirname, "files", "test-image2.webp"),
   ])
 
-
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect(page.getByText("Hotel Saved!")).toBeVisible();
 });
