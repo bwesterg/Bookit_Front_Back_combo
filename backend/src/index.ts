@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/my/hotels", myHotelRoutes);
+app.use("/api/my-hotels", myHotelRoutes);
 
 app.listen(8000, () => {
   console.log("server up and running on localhost:8000");
