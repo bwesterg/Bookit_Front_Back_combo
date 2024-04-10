@@ -1,9 +1,13 @@
 import express, { Request, Response} from "express";
 import Hotel from "../models/hotel";
 import { HotelSearchResponse } from "../shared/types";
+import { param, validationResult } from "express-validator";
 
 // api/hotels/search?
 const router = express.Router();
+
+
+
 router.get("/search", async (req: Request, res: Response) => {
   try {
     // implement pagination b/c a search of thousands of pages
@@ -45,6 +49,25 @@ router.get("/search", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Something isn't wokring" });
   }
 });
+
+// /api/hotels/3839854894390etc for info about hotel
+router.get("/:id", [
+  param("id").notEmpty().withMessage("Id associated with hotel required")
+], async (req: Request, res: Response)=> {
+  const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
+  const id = req.params.id.toString();
+  try {
+    const hotel = await Hotel.findById(id);
+    res.json(hotel);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Could not fetch hotel" });
+  }
+})
 
 const constructSearchQuery = (queryParams: any) => {
   let constructedQuery: any = {};
