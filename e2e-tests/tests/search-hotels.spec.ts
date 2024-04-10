@@ -25,5 +25,16 @@ test("Should show hotel search results", async({page})=> {
   await page.getByPlaceholder("Dream Here...").fill("Denver");
   await page.getByRole("button", { name: "Search" }).click();
   await expect(page.getByText("Hotels found in Denver")).toBeVisible();
-  await expect(page.getByText("Danish hotel very very good")).toBeVisible();
+  await expect(page.getByText("Danish has a hotel that is very very good")).toBeVisible();
+});
+
+test("needs to show hotel detail", async({ page }) => {
+  await page.goto(UI_URL);
+
+  await page.getByPlaceholder("Dream Here...").fill("Denver");
+  await page.getByRole("button", { name: "Search" }).click();
+
+  await page.getByText("Danish Hotel").click();
+  await expect(page).toHaveURL(/detail/);
+  await expect(page.getByRole("button", {name: "Reserve Now"})).toBeVisible();
 });
