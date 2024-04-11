@@ -3,8 +3,24 @@ import express, { Request, Response } from "express";
 import User from "../models/user";
 import jwt from "jsonwebtoken";
 import { check, validationResult } from "express-validator";
+import verifyToken from "../middleware/auth";
 
 const router = express.Router();
+
+router.get("/me", verifyToken, async(req:Request, res: Response)=>{
+  const userId = req.userId;
+  try {
+    const user = await User.findById(userId).select("-password");
+    // including password would be a security vulnerabily
+    if(!user) {
+      return res.status(400).json({ message: "Can't find this user" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "Something isn't right"})
+  }
+})
 
 // /api/users/register
 router.post("/register", [
