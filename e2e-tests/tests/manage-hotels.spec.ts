@@ -46,11 +46,11 @@ test("hopefully, users can add a hotel", async ({page}) => {
 test("should display hotels", async({ page }) => {
   await page.goto(`${UI_URL}/my-hotels`);
 
-  await expect(page.getByText("Danish Hotel")).toBeVisible();
-  await expect(page.getByText("a good boy")).toBeVisible();
-  await expect(page.getByText("Denver, CO, USA")).toBeVisible();
-  await expect(page.getByText("$502 per night")).toBeVisible();
-  await expect(page.getByText("8 adults, 2 children")).toBeVisible();
+  await expect(page.getByText("Danish Happy Hotel")).toBeVisible();
+  await expect(page.getByText("A good soul")).toBeVisible();
+  await expect(page.getByText("Boulder, CO, USA")).toBeVisible();
+  await expect(page.getByText("$76 per night")).toBeVisible();
+  await expect(page.getByText("4 adults, 1 children")).toBeVisible();
   // await expect(page.getByText("3 out of 5 stars")).toBeVisible();
 
   await expect(page.getByRole("link", { name: "Edit" }).first()).toBeVisible();
@@ -61,8 +61,8 @@ test("should edit hotel", async({ page }) => {
   await page.goto(`${UI_URL}/my-hotels`);
   await page.getByRole("link", { name: "Edit" }).first().click();
   await page.waitForSelector('[name="name"]', { state: "attached" });
-  await expect(page.locator('[name="name"]')).toHaveValue('Danish Hotel');
-  await page.locator('[name="name"]').fill("UPDATED Danish Hotel UPDATED");
+  await expect(page.locator('[name="name"]')).toHaveValue('Danish Happy Hotel');
+  await page.locator('[name="name"]').fill("UPDATED Danish Happy Hotel UPDATED");
   await page.getByRole("button", { name: "Save" }).click();
   await expect(page.getByText("Hotel Updated")).toBeVisible();
 
