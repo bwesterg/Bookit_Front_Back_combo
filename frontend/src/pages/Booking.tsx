@@ -4,6 +4,7 @@ import BookingForm from "../forms/BookingForm/BookingForm";
 import { useSearchContext } from "../contexts/SearchContext";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import BookingDetailsSummary from "../components/BookingDetailsSummary";
 
 const Booking = () => {
   const search = useSearchContext();
@@ -34,13 +35,19 @@ const Booking = () => {
 
   // console.log(currentUser?.email);
 
+    if (!hotel){
+      return <></>
+    }
+
   return <div className="grid md:grid-cols-[1fr_2fr]">
     {/* <div className="bg-green-200">Reservation Details</div> */}
-    <BookingDetailSummary 
+    <BookingDetailsSummary 
       checkIn={search.checkIn} 
       checkOut={search.checkOut}
       adultCount={search.adultCount}
-      childCount={search.childCount}  
+      childCount={search.childCount} 
+      numberOfNights={numberOfNights}
+      hotel={hotel} 
     />
       {/* booking form will only display if there is a current user. */}
       {currentUser && <BookingForm currentUser={currentUser}/>}
